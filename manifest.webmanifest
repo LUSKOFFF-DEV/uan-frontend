@@ -1,0 +1,16 @@
+{
+  "name": "UAN Hospitalar — Gestão de Alimentação e Nutrição",
+  "short_name": "UAN Hospitalar",
+  "description": "Sistema de gestão da Unidade de Alimentação e Nutrição: fichas técnicas, cardápio, produção, suprimentos, segurança alimentar, indicadores e inteligência.",
+  "lang": "pt-BR",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1E6BB8",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
