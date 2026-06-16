@@ -5434,7 +5434,7 @@ window.addEventListener('online',()=>{updateNet();syncLog('Conexão restabelecid
 window.addEventListener('offline',()=>{updateNet();syncLog('Sem conexão — trabalhando offline.');});
 
 // ---------- sincronização ----------
-function syncCfg(){return {api:(localStorage.getItem('uan_api')||'').replace(/\/+$/,''),auto:localStorage.getItem('uan_auto')!=='off'};}
+function syncCfg(){return {api:'https://uan-api.onrender.com',auto:true};}
 function saveSyncConfig(){
   localStorage.setItem('uan_api',document.getElementById('sync-api').value.trim());
   localStorage.setItem('uan_auto',document.getElementById('sync-auto').value);
@@ -5458,7 +5458,8 @@ async function pushToServer(){
     const r=await fetch(api+'/state',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     if(r.ok){localStorage.setItem('uan_lastSync',new Date().toISOString());syncLog('⬆️ Enviado ao servidor.');updateSyncState();return true;}
     syncLog('✗ Falha ao enviar ('+r.status+').');return false;
-  }catch(e){syncLog('✗ Erro no envio: '+e.message);return false;}
+  }catch(e){syncLog('✗ Erro no envio: '+e.message); showToast("Falha na sincronização: " + e.message, "danger"); return false;}
+}
 }
 // busca o estado do servidor; aplica e re-renderiza se for mais recente que o local
 async function pullFromServer(silent){
@@ -5481,7 +5482,7 @@ async function pullFromServer(silent){
       return true;
     }
     _syncing=false;return false;
-  }catch(e){_syncing=false;if(!silent)syncLog('✗ Erro ao buscar: '+e.message);return false;}
+}catch(e){_syncing=false;if(!silent){syncLog('✗ Erro ao buscar: '+e.message); showToast("Erro ao atualizar dados: " + e.message, "danger");} return false;}
 }
 // salva localmente e, se algo mudou, envia imediatamente ao servidor (auto-sync)
 async function persistTick(){
