@@ -5460,7 +5460,6 @@ async function pushToServer(){
     syncLog('✗ Falha ao enviar ('+r.status+').');return false;
   }catch(e){syncLog('✗ Erro no envio: '+e.message); showToast("Falha na sincronização: " + e.message, "danger"); return false;}
 }
-}
 // busca o estado do servidor; aplica e re-renderiza se for mais recente que o local
 async function pullFromServer(silent){
   const {api}=syncCfg();
@@ -5482,7 +5481,7 @@ async function pullFromServer(silent){
       return true;
     }
     _syncing=false;return false;
-}catch(e){_syncing=false;if(!silent){syncLog('✗ Erro ao buscar: '+e.message); showToast("Erro ao atualizar dados: " + e.message, "danger");} return false;}
+  }catch(e){_syncing=false;if(!silent){syncLog('✗ Erro ao buscar: '+e.message); showToast("Erro ao atualizar dados: " + e.message, "danger");} return false;}
 }
 // salva localmente e, se algo mudou, envia imediatamente ao servidor (auto-sync)
 async function persistTick(){
@@ -5493,7 +5492,7 @@ async function persistTick(){
 function updateSyncState(){
   const st=document.getElementById('sync-state');if(!st)return;const c=syncCfg();
   const ls=localStorage.getItem('uan_lastSync');
-  st.textContent=c.api?('Sincronização '+(c.auto?'automática ativa':'manual')+(ls?' · última às '+new Date(ls).toLocaleTimeString('pt-BR'):'')):'Configure a API para sincronizar';
+  st.textContent=c.api?('Sincronização automática ativa'+(ls?' · última às '+new Date(ls).toLocaleTimeString('pt-BR'):'')):'Configure a API para sincronizar';
 }
 // sincronização manual (botão): salva, busca o mais recente e, se o local for o mais novo, envia
 async function syncNow(silent){
